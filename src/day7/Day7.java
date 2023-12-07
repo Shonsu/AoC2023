@@ -3,18 +3,18 @@ package day7;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
 public class Day7 {
 
-    private final static String ORDER = "AKQJT98765432";
+    //private final static String ORDER = "AKQJT98765432";
+    private final static String ORDER = "AKQT98765432J"; // with Joker
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new FileReader("src/day7/inputexample.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("src/day7/input.txt"));
 
         TreeSet<Hand> hands = new TreeSet<>();
         Map<Character, Integer> hand = new HashMap<>();
@@ -25,11 +25,14 @@ public class Day7 {
             hand.clear();
 
             String[] split = line.trim().split("\\s+");
-            System.out.println(Arrays.toString(split));
+
             char[] forSorting = split[0].toCharArray();
             for (char c : forSorting) {
                 hand.put(c, hand.containsKey(c) ? hand.get(c) + 1 : 1);
             }
+
+
+
             Kind kind = Kind.none;
             for (Character c : hand.keySet()) {
                 kind = switch (hand.get(c)) {
@@ -39,13 +42,9 @@ public class Day7 {
                     case 5 -> Kind.five;
                     default -> (!kind.equals(Kind.none)) ? kind : Kind.high;
                 };
-                System.out.print(c + " count " + hand.get(c));
-                System.out.println();
             }
-            System.out.println(kind);
             hands.add(new Hand(split[0], Long.parseLong(split[1].trim()), kind));
         }
-        System.out.println(hands);
 
         int rank = 1;
         long sum = 0;
@@ -63,7 +62,6 @@ public class Day7 {
         @Override
         public int compareTo(Hand o) {
             int i = o.kind.compareTo(this.kind);
-            //System.out.println(this.card + " other " + o.card);
             if (i != 0) {
                 return i;
             } else {
@@ -73,24 +71,12 @@ public class Day7 {
                     pos1 = ORDER.indexOf(this.card.charAt(j));
                     pos2 = ORDER.indexOf(o.card.charAt(j));
                 }
-                //System.out.printf(pos1 + " " + pos2);
-                return pos2-pos1;
-                //return this.card.compareTo(o.card);
+                return pos2 - pos1;
             }
         }
     }
 
     enum Kind {
-        high(7), five(6), four(5), full(4), three(3), two(2), one(1), none(0);
-
-        private final int value;
-
-        Kind(int value) {
-            this.value = value;
-        }
-
-        private int value() {
-            return value;
-        }
+        five, four, full, three, two, one, high, none;
     }
 }
