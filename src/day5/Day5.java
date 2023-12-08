@@ -55,7 +55,8 @@ public class Day5 {
         List<Long> location = getLocationFromMaps(seed, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
 
         Optional<Long> min = location.stream().min(Comparator.comparingLong(Long::longValue));
-        System.out.println("Min location:" + min.get());
+        System.out.println("Min location:");
+        min.ifPresent(System.out::println);
 
         long start = System.currentTimeMillis();
         Instant startI = Instant.now();

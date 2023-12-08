@@ -17,7 +17,6 @@ public class Day7 {
         TreeSet<Hand> hands = new TreeSet<>();
         Map<Character, Integer> hand = new HashMap<>();
 
-
         String line;
         while ((line = br.readLine()) != null) {
             hand.clear();
@@ -29,28 +28,16 @@ public class Day7 {
                 hand.put(c, hand.containsKey(c) ? hand.get(c) + 1 : 1);
             }
 
-            Map<Character, Integer> newHand = new HashMap<>();
             if (hand.containsKey('J')) {
                 Integer v = hand.get('J');
-                System.out.println(Arrays.toString(split));
-                System.out.println("j: " + hand.get('J'));
-
-
-
                 Optional<Map.Entry<Character, Integer>> max = hand.entrySet().stream()
                         .filter(entry -> entry.getValue() <= 5 - v && !entry.getKey().equals('J'))
                         .max(Comparator.comparingInt(Map.Entry::getValue));
 
-                if (max.isPresent()){
-                    System.out.println("max of " + max.get().getKey() + " val " + max.get().getValue());
+                if (max.isPresent()) {
                     hand.put(max.get().getKey(), max.get().getValue() + v);
                     hand.put('J', 0);
                 }
-
-                for (Character c : hand.keySet()) {
-                    System.out.println("key: " + c + " value " + hand.get(c));
-                }
-
             }
 
             Kind kind = Kind.none;
@@ -69,13 +56,10 @@ public class Day7 {
         int rank = 1;
         long sum = 0;
         for (Hand h : hands) {
-            System.out.println(h + " rank " + rank);
             sum += h.bid() * rank;
             rank++;
         }
-
         System.out.println("Total winnings: " + sum);
-
     }
 
     record Hand(String card, long bid, Kind kind) implements Comparable<Hand> {
