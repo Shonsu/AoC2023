@@ -34,7 +34,7 @@ public class Day13 {
         }
 
         System.out.println("Sum: " + sum);
-        System.out.println("sumWithSmudges: " + sumWithSmudges);
+        System.out.println("Sum with smudges: " + sumWithSmudges);
     }
 
     private static List<String> rotatePatternRight(List<String> p) {
@@ -105,12 +105,10 @@ public class Day13 {
                     }
                 }
                 if (matches && (smudges == 1 ^ smudgeFound)) {
-                    System.out.println(i);
                     return i;
                 }
             }
         }
-        System.out.println(0);
         return 0;
     }
 
